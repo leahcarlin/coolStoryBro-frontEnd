@@ -12,7 +12,6 @@ export default function reducer(state = initialState, action) {
       };
     }
     case "space/singleSpace": {
-      console.log("single space in reducer", action.payload);
       return {
         ...state,
         spaceDetails: { ...action.payload },

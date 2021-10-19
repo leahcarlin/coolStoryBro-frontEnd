@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../store/user/selectors";
 import { deleteStory } from "../store/user/actions";
@@ -40,7 +40,7 @@ export default function MySpace() {
                 <p>{story.content}</p>
                 <button
                   className="DeleteStory"
-                  onClick={() => dispatch(deleteStory)}
+                  onClick={() => dispatch(deleteStory(story.id))}
                 >
                   Delete Story
                 </button>

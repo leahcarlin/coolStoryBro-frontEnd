@@ -14,6 +14,7 @@ import { getUserWithStoredToken } from "./store/user/actions";
 import { Jumbotron } from "react-bootstrap";
 import Homepage from "./pages/Homepage";
 import SingleSpace from "./pages/SingleSpace";
+import MySpace from "./pages/MySpace";
 
 const Other = () => (
   <Jumbotron>
@@ -38,6 +39,7 @@ function App() {
         <Route exact path="/" component={Homepage} />
         <Route path="/other" component={Other} />
         <Route path="/spaces/:id" component={SingleSpace} />
+        <Route path="/me" component={MySpace} />
         <Route path="/signup" component={SignUp} />
         <Route path="/login" component={Login} />
       </Switch>

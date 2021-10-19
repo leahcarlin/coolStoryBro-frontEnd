@@ -1,7 +1,6 @@
 const initialState = {
   allSpaces: [],
-  space: {},
-  story: [],
+  space: null,
 };
 
 export default function reducer(state = initialState, action) {
@@ -16,8 +15,7 @@ export default function reducer(state = initialState, action) {
       console.log("reducer action", action.payload);
       return {
         ...state,
-        space: action.payload.space,
-        story: action.payload.story,
+        space: action.payload,
       };
     }
     default: {

@@ -27,19 +27,8 @@ export const fetchAllSpaces = async (dispatch, getState) => {
 
 export const fetchSingleSpace = (id) => async (dispatch, getState) => {
   try {
-    const [spaceRes, storyRes] = await Promise.all([
-      axios.get(`${apiUrl}/spaces/${id}`),
-      axios.get(`${apiUrl}/spaces/${id}/stories`),
-    ]);
-    console.log("Space Res", spaceRes);
-    console.log("Story Res", storyRes);
-
-    dispatch(
-      singleSpaceFetched({
-        space: spaceRes.data,
-        story: storyRes.data,
-      })
-    );
+    const res = await axios.get(`${apiUrl}/spaces/${id}`);
+    dispatch(singleSpaceFetched(res.data));
   } catch (e) {
     console.log(e.message);
   }

@@ -9,3 +9,23 @@
     border-radius: 10px;
   }
 }
+
+.MySpaceHeader {
+  padding: 30px;
+}
+.MySpaceButtons {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 20px;
+}
+.DeleteStory {
+  background-color: black;
+  color: white;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+.DeleteStory:hover {
+  background-color: green;
+  color: white;
+}

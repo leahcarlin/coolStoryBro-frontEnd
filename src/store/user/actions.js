@@ -5,26 +5,33 @@ import {
   appLoading,
   appDoneLoading,
   showMessageWithTimeout,
-  setMessage
+  setMessage,
 } from "../appState/actions";
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const TOKEN_STILL_VALID = "TOKEN_STILL_VALID";
 export const LOG_OUT = "LOG_OUT";
 
-const loginSuccess = userWithToken => {
+const loginSuccess = (userWithToken) => {
   return {
     type: LOGIN_SUCCESS,
-    payload: userWithToken
+    payload: userWithToken,
   };
 };
 
-const tokenStillValid = userWithoutToken => ({
+const tokenStillValid = (userWithoutToken) => ({
   type: TOKEN_STILL_VALID,
-  payload: userWithoutToken
+  payload: userWithoutToken,
 });
 
 export const logOut = () => ({ type: LOG_OUT });
+
+export const deleteSuccess = (storyId) => {
+  return {
+    type: "user/deleteStory",
+    payload: storyId,
+  };
+};
 
 export const signUp = (name, email, password) => {
   return async (dispatch, getState) => {
@@ -33,7 +40,7 @@ export const signUp = (name, email, password) => {
       const response = await axios.post(`${apiUrl}/signup`, {
         name,
         email,
-        password
+        password,
       });
 
       dispatch(loginSuccess(response.data));
@@ -58,7 +65,7 @@ export const login = (email, password) => {
     try {
       const response = await axios.post(`${apiUrl}/login`, {
         email,
-        password
+        password,
       });
 
       dispatch(loginSuccess(response.data));
@@ -90,7 +97,7 @@ export const getUserWithStoredToken = () => {
       // if we do have a token,
       // check wether it is still valid or if it is expired
       const response = await axios.get(`${apiUrl}/me`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       // token is still valid
@@ -108,4 +115,14 @@ export const getUserWithStoredToken = () => {
       dispatch(appDoneLoading());
     }
   };
+};
+
+export const deleteStory = (storyId) => async (dispatch, getState) => {
+  try {
+    const res = await axios.delete(`${apiUrl}/story/${storyId}`);
+    console.log("story deleted?", res.data);
+    dispatch(deleteSuccess(storyId));
+  } catch (e) {
+    console.log(e.message);
+  }
 };

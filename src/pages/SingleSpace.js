@@ -8,42 +8,44 @@ export default function SingleSpace() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const spaceData = useSelector(selectSingleSpace);
-  const stories = spaceData.story;
-  // console.log("spaceData", spaceData);
+  const space = spaceData.space;
+
+  // const storyByDate = space.stories.sort(
+  //   (a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)
+  // ); //stories sorted by date
+  // console.log("sorted", storyByDate);
 
   useEffect(() => {
     dispatch(fetchSingleSpace(id));
   }, [dispatch, id]);
 
-  if (!spaceData) return <h3>Loading...</h3>; //wait for load
-
-  const storiesByDate = stories.sort((a, b) => b.createdAt - a.createdAt);
+  if (!space || !space.stories) return <h3>Loading...</h3>; //wait for load
 
   return (
     <div className="singleSpaceContainer">
       <div
         className="singleSpaceHeader"
         style={{
-          backgroundColor: spaceData.space.backgroundColor,
-          color: spaceData.space.color,
+          backgroundColor: space.backgroundColor,
+          color: space.color,
           padding: "40px 20px 20px 20px",
         }}
       >
-        <h1>{spaceData.space.title}</h1>
-        <h5>{spaceData.space.description}</h5>
+        <h1>{space.title}</h1>
+        <h5>{space.description}</h5>
       </div>
       <div className="storiesContainer">
-        {!stories ? (
+        {!space.stories ? (
           <h3>No stories for this space</h3>
         ) : (
-          storiesByDate.map((s) => (
+          space.stories.map((story) => (
             <div
               className="stories"
-              style={{ backgroundImage: "url(" + s.imgUrl + ")" }}
+              style={{ backgroundImage: "url(" + story.imgUrl + ")" }}
             >
               <div className="storiesContent">
-                <h3>{s.name}</h3>
-                <p>{s.content}</p>
+                <h3>{story.name}</h3>
+                <p>{story.content}</p>
               </div>
             </div>
           ))

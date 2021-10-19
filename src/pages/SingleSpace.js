@@ -8,6 +8,7 @@ export default function SingleSpace() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const spaceData = useSelector(selectSingleSpace);
+  const stories = spaceData.story;
   // console.log("spaceData", spaceData);
 
   useEffect(() => {
@@ -15,6 +16,8 @@ export default function SingleSpace() {
   }, [dispatch, id]);
 
   if (!spaceData) return <h3>Loading...</h3>; //wait for load
+
+  const storiesByDate = stories.sort((a, b) => b.createdAt - a.createdAt);
 
   return (
     <div className="singleSpaceContainer">
@@ -30,10 +33,10 @@ export default function SingleSpace() {
         <h5>{spaceData.space.description}</h5>
       </div>
       <div className="storiesContainer">
-        {!spaceData.story ? (
+        {!stories ? (
           <h3>No stories for this space</h3>
         ) : (
-          spaceData.story.map((s) => (
+          storiesByDate.map((s) => (
             <div
               className="stories"
               style={{ backgroundImage: "url(" + s.imgUrl + ")" }}

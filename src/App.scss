@@ -1,0 +1,11 @@
+.storiesContainer {
+  display: flex;
+
+  .stories {
+    width: 600px;
+    padding: 30px;
+    margin: 20px;
+    opacity: 0.8;
+    border-radius: 10px;
+  }
+}

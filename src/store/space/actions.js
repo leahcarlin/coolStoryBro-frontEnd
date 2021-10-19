@@ -15,18 +15,10 @@ export const singleSpaceFetched = (data) => {
   };
 };
 
-export const storiesFetched = (data) => {
-  return {
-    type: "space/storiesById",
-    payload: data,
-  };
-};
-
 export const fetchAllSpaces = async (dispatch, getState) => {
   try {
     const res = await axios.get(`${apiUrl}/spaces`);
     const allSpaces = res.data;
-    // console.log("spaces data", allSpaces);
     dispatch(spacesFetched(allSpaces));
   } catch (e) {
     console.log(e.message);
@@ -35,19 +27,19 @@ export const fetchAllSpaces = async (dispatch, getState) => {
 
 export const fetchSingleSpace = (id) => async (dispatch, getState) => {
   try {
-    const res = await axios.get(`${apiUrl}/spaces/${id}`);
-    const singleSpace = res.data;
-    dispatch(singleSpaceFetched(singleSpace));
-  } catch (e) {
-    console.log(e.message);
-  }
-};
+    const [spaceRes, storyRes] = await Promise.all([
+      axios.get(`${apiUrl}/spaces/${id}`),
+      axios.get(`${apiUrl}/spaces/${id}/stories`),
+    ]);
+    console.log("Space Res", spaceRes);
+    console.log("Story Res", storyRes);
 
-export const fetchStoriesById = (id) => async (dispatch, getState) => {
-  try {
-    const res = await axios.get(`${apiUrl}/spaces/${id}/stories`);
-    const stories = res.data;
-    dispatch(storiesFetched(stories));
+    dispatch(
+      singleSpaceFetched({
+        space: spaceRes.data,
+        story: storyRes.data,
+      })
+    );
   } catch (e) {
     console.log(e.message);
   }

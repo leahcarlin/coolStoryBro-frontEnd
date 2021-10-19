@@ -1,6 +1,7 @@
 const initialState = {
   allSpaces: [],
-  spaceDetails: null,
+  space: {},
+  story: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -12,9 +13,11 @@ export default function reducer(state = initialState, action) {
       };
     }
     case "space/singleSpace": {
+      console.log("reducer action", action.payload);
       return {
         ...state,
-        spaceDetails: { ...action.payload },
+        space: action.payload.space,
+        story: action.payload.story,
       };
     }
     default: {

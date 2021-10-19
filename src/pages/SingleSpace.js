@@ -1,37 +1,50 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSingleSpace, fetchStoriesById } from "../store/space/actions";
+import { fetchSingleSpace } from "../store/space/actions";
 import { selectSingleSpace } from "../store/space/selectors";
 import { useParams } from "react-router-dom";
 
 export default function SingleSpace() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const space = useSelector(selectSingleSpace);
-  console.log("space in single space", space);
+  const spaceData = useSelector(selectSingleSpace);
+  // console.log("spaceData", spaceData);
 
   useEffect(() => {
     dispatch(fetchSingleSpace(id));
-    dispatch(fetchStoriesById)(id);
   }, [dispatch, id]);
 
-  if (!space) return <h3>Loading...</h3>; //wait for load
+  if (!spaceData) return <h3>Loading...</h3>; //wait for load
 
   return (
     <div className="singleSpaceContainer">
       <div
         className="singleSpaceHeader"
         style={{
-          backgroundColor: space.backgroundColor,
-          color: space.color,
+          backgroundColor: spaceData.space.backgroundColor,
+          color: spaceData.space.color,
           padding: "40px 20px 20px 20px",
         }}
       >
-        <h1>{space.title}</h1>
-        <h5>{space.description}</h5>
+        <h1>{spaceData.space.title}</h1>
+        <h5>{spaceData.space.description}</h5>
       </div>
-      <div className="singleSpaceStories">
-        <p>stories here</p>
+      <div className="storiesContainer">
+        {!spaceData.story ? (
+          <h3>No stories for this space</h3>
+        ) : (
+          spaceData.story.map((s) => (
+            <div
+              className="stories"
+              style={{ backgroundImage: "url(" + s.imgUrl + ")" }}
+            >
+              <div className="storiesContent">
+                <h3>{s.name}</h3>
+                <p>{s.content}</p>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

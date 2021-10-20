@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../store/user/selectors";
 import { deleteStory } from "../store/user/actions";
+import { useHistory } from "react-router-dom";
 
 export default function MySpace() {
   const dispatch = useDispatch();

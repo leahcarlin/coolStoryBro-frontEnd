@@ -1,6 +1,6 @@
 import { apiUrl } from "../../config/constants";
 import axios from "axios";
-import { selectToken } from "./selectors";
+import { selectToken, selectUser } from "./selectors";
 import {
   appLoading,
   appDoneLoading,
@@ -11,6 +11,7 @@ import {
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const TOKEN_STILL_VALID = "TOKEN_STILL_VALID";
 export const LOG_OUT = "LOG_OUT";
+export const DELETE_SUCCESS = "DELETE_SUCCESS";
 
 const loginSuccess = (userWithToken) => {
   return {
@@ -28,7 +29,7 @@ export const logOut = () => ({ type: LOG_OUT });
 
 export const deleteSuccess = (storyId) => {
   return {
-    type: "user/deleteStory",
+    type: DELETE_SUCCESS,
     payload: storyId,
   };
 };
@@ -119,9 +120,13 @@ export const getUserWithStoredToken = () => {
 
 export const deleteStory = (storyId) => async (dispatch, getState) => {
   try {
-    const res = await axios.delete(`${apiUrl}/story/${storyId}`);
+    dispatch(appLoading());
+    const res = await axios.delete(`${apiUrl}/stories/${storyId}`);
     console.log("story deleted?", res.data);
+    // filter here
     dispatch(deleteSuccess(storyId));
+
+    dispatch(appDoneLoading());
   } catch (e) {
     console.log(e.message);
   }

@@ -12,6 +12,7 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const TOKEN_STILL_VALID = "TOKEN_STILL_VALID";
 export const LOG_OUT = "LOG_OUT";
 export const DELETE_SUCCESS = "DELETE_SUCCESS";
+export const NEW_STORY_SUCCESS = "NEW_STORY_SUCCESS";
 
 const loginSuccess = (userWithToken) => {
   return {
@@ -31,6 +32,13 @@ export const deleteSuccess = (storyId) => {
   return {
     type: DELETE_SUCCESS,
     payload: storyId,
+  };
+};
+
+export const newStorySuccess = (data) => {
+  return {
+    type: NEW_STORY_SUCCESS,
+    payload: data,
   };
 };
 
@@ -131,3 +139,25 @@ export const deleteStory = (storyId) => async (dispatch, getState) => {
     console.log(e.message);
   }
 };
+
+export const newStory =
+  (name, content, imgUrl) => async (dispatch, getState) => {
+    // console.log("check new story items", name, content, imgUrl);
+    const { space, token } = selectUser(getState());
+    dispatch(appLoading());
+
+    const res = await axios.post(
+      `${apiUrl}/spaces/${space.id}/story`,
+      {
+        name,
+        content,
+        imgUrl,
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    console.log("new story", res);
+    dispatch(newStorySuccess(res.data.story));
+    dispatch(appDoneLoading());
+  };

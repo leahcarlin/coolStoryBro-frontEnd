@@ -13,6 +13,7 @@ export const TOKEN_STILL_VALID = "TOKEN_STILL_VALID";
 export const LOG_OUT = "LOG_OUT";
 export const DELETE_SUCCESS = "DELETE_SUCCESS";
 export const NEW_STORY_SUCCESS = "NEW_STORY_SUCCESS";
+export const SPACE_UPDATE_SUCCESS = "SPACE_UPDATE_SUCCESS"
 
 const loginSuccess = (userWithToken) => {
   return {
@@ -41,6 +42,13 @@ export const newStorySuccess = (data) => {
     payload: data,
   };
 };
+
+export const spaceUpdateSuccess = (data) => {
+  return {
+    type: SPACE_UPDATE_SUCCESS,
+    payload: data,
+  };
+}
 
 export const signUp = (name, email, password) => {
   return async (dispatch, getState) => {
@@ -126,6 +134,7 @@ export const getUserWithStoredToken = () => {
   };
 };
 
+// Delete a story
 export const deleteStory = (storyId) => async (dispatch, getState) => {
   try {
     dispatch(appLoading());
@@ -140,6 +149,7 @@ export const deleteStory = (storyId) => async (dispatch, getState) => {
   }
 };
 
+// Post a new story (authMiddleware)
 export const newStory =
   (name, content, imgUrl) => async (dispatch, getState) => {
     // console.log("check new story items", name, content, imgUrl);
@@ -158,6 +168,46 @@ export const newStory =
       }
     );
     console.log("new story", res);
+    dispatch(
+      showMessageWithTimeout(
+        "You've successfully posted a story!",
+        false,
+        res.data.message,
+        3000
+      )
+    );
     dispatch(newStorySuccess(res.data.story));
+    dispatch(appDoneLoading());
+  };
+
+// Update a space (authMiddleware)
+export const updateSpace =
+  (title, description, backgroundColor, color) =>
+  async (dispatch, getState) => {
+    const { space, token } = selectUser(getState());
+    dispatch(appLoading());
+
+    const res = await axios.put(
+      `${apiUrl}/spaces/${space.id}`,
+      {
+        title,
+        description,
+        backgroundColor,
+        color,
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    console.log("updated space", res);
+    dispatch(
+      showMessageWithTimeout(
+        "You've successfully updated your space!",
+        false,
+        res.data.message,
+        3000
+      )
+    );
+    dispatch(spaceUpdateSuccess(res.data)
     dispatch(appDoneLoading());
   };

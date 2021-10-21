@@ -4,6 +4,7 @@ import {
   TOKEN_STILL_VALID,
   DELETE_SUCCESS,
   NEW_STORY_SUCCESS,
+  SPACE_UPDATE_SUCCESS,
 } from "./actions";
 
 const initialState = {
@@ -43,6 +44,12 @@ const reducer = (state = initialState, action) => {
           ...state.space,
           stories: [...state.space.stories, action.payload],
         },
+      };
+    }
+    case SPACE_UPDATE_SUCCESS: {
+      return {
+        ...state,
+        space: { ...action.payload, stories: state.space.stories },
       };
     }
 

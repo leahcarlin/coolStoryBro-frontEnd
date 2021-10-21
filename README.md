@@ -201,7 +201,7 @@ You will be provided with a wireframe that shows an overview of the app along wi
 | When the form is submitted a request is sent to the server to create the story      | 3      |
 | The request uses JWT authorization                                                  | 2      |
 | The user sees a success message if the story was posted successfully                | 1      |
-| The success message is an alert, confirm or prompt popup or console.log             | -1     |
+| The success message is an alert, confirm or prompt popup or console.log             |  1     |
 | Total                                                                               | 9      |
 
 ### 6. As a logged in user I want to be able to edit my space, so I can express myself

@@ -9,10 +9,12 @@ export default function PostStory() {
   const dispatch = useDispatch();
   const [previewImg, setPreviewImg] = useState(false);
 
-  console.log("preview image", previewImg);
+  //console.log("preview image", previewImg);
+  
   const submitNewStory = (e) => {
     e.preventDefault();
     dispatch(newStory(name, content, imgUrl));
+    alert("You've successfully posted a new story!");
   };
 
   return (

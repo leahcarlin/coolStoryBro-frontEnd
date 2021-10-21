@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../store/user/selectors";
 import MySpaceStories from "../components/MySpaceStories";
 import PostStoryForm from "./PostStoryForm";
+import UpdateSpaceForm from "./UpdateSpaceForm";
 import Loading from "../components/Loading";
 
 export default function MySpace() {
@@ -49,8 +50,8 @@ export default function MySpace() {
           </div>
         ) : null}
         <MySpaceStories user={user} />
-        {/* {postStoryMode ? <PostStoryForm /> : null} */}
-        <PostStoryForm />
+        {postStoryMode ? <PostStoryForm /> : null}
+        {editMode ? <UpdateSpaceForm /> : null}
       </div>
     </div>
   );

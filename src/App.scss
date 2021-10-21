@@ -1,12 +1,17 @@
 .storiesContainer {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 
   .stories {
     width: 600px;
-    padding: 30px;
     margin: 20px;
+    padding: 20px;
     opacity: 0.8;
     border-radius: 10px;
+    flex-basis: 25%;
+    flex-grow: 1;
   }
 
   .button {
@@ -33,16 +38,33 @@
   background-color: green;
   color: white;
 }
-
-.PostStoryWrapper {
-  width: 600px;
-
-  li {
-    list-style-type: none;
-  }
-}
-.form-row {
+.PostStoryFormContainer {
+  margin: 20px 0 20px 10px;
   display: flex;
-  justify-content: flex-end;
-  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .PostStoryWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 800px;
+
+    li {
+      list-style-type: none;
+    }
+
+    .form-row,
+    .PostStoryButtons {
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px;
+    }
+    .PreviewImage img {
+      flex-shrink: 0;
+      min-width: 100%;
+      min-height: 100%;
+    }
+  }
 }

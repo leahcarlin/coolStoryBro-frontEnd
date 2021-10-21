@@ -1,30 +1,57 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { selectUser } from "../store/user/selectors";
 import MySpaceStories from "../components/MySpaceStories";
 import PostStoryForm from "./PostStoryForm";
+import Loading from "../components/Loading";
 
 export default function MySpace() {
-  // const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  //   console.log("user", user);
+  const space = user.space;
+  const [editMode, setEditMode] = useState(false);
+  const [postStoryMode, setPostStoryMode] = useState(false);
+  const history = useHistory();
+  console.log("story mode", postStoryMode);
+
+  if (user.token === null) {
+    history.push("/");
+  }
+
+  if (space === null) {
+    return <Loading />;
+  }
 
   if (!user.id) return <h3>Loading...</h3>; //wait for load
+
+  const displayButtons =
+    user.id === space.userId && editMode === false && postStoryMode === false;
 
   return (
     <div className="MySpaceContainer">
       <div
         className="MySpaceHeader"
         style={{
-          backgroundColor: user.space.backgroundColor,
-          color: user.space.color,
+          backgroundColor: space.backgroundColor,
+          color: space.color,
         }}
       >
-        <h1>{user.space.title}</h1>
-        <h4>{user.space.description}</h4>
+        <h1>{space.title}</h1>
+        <h4>{space.description}</h4>
       </div>
-      <MySpaceStories />
-      <PostStoryForm />
+      <div className="PostStoryContainer">
+        {displayButtons ? (
+          <div className="MySpaceButtons">
+            <button onClick={() => setEditMode(true)}>Edit my space</button>
+            <button onClick={() => setPostStoryMode(true)}>
+              Post a cool story bro
+            </button>
+          </div>
+        ) : null}
+        <MySpaceStories user={user} />
+        {/* {postStoryMode ? <PostStoryForm /> : null} */}
+        <PostStoryForm />
+      </div>
     </div>
   );
 }

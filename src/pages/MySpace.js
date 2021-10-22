@@ -25,9 +25,6 @@ export default function MySpace() {
 
   if (!user.id) return <h3>Loading...</h3>; //wait for load
 
-  const displayButtons =
-    user.id === space.userId && editMode === false && postStoryMode === false;
-
   return (
     <div className="MySpaceContainer">
       <div
@@ -40,17 +37,16 @@ export default function MySpace() {
         <h1>{space.title}</h1>
         <h4>{space.description}</h4>
       </div>
+      {postStoryMode ? <PostStoryForm /> : null}
       <div className="PostStoryContainer">
-        {displayButtons ? (
-          <div className="MySpaceButtons">
-            <button onClick={() => setEditMode(true)}>Edit my space</button>
-            <button onClick={() => setPostStoryMode(true)}>
-              Post a cool story bro
-            </button>
-          </div>
-        ) : null}
+        <div className="MySpaceButtons">
+          <button onClick={() => setEditMode(true)}>Edit my space</button>
+          <button onClick={() => setPostStoryMode(true)}>
+            Post a cool story bro
+          </button>
+        </div>
+
         <MySpaceStories user={user} />
-        {postStoryMode ? <PostStoryForm /> : null}
         {editMode ? <UpdateSpaceForm /> : null}
       </div>
     </div>

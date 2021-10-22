@@ -38,6 +38,7 @@ const reducer = (state = initialState, action) => {
         },
       };
     case NEW_STORY_SUCCESS: {
+      console.log("check action in reducer", action.payload);
       return {
         ...state,
         space: {

@@ -4,31 +4,32 @@ import { updateSpace } from "../store/user/actions";
 import { selectUser } from "../store/user/selectors";
 
 export default function UpdateSpaceForm() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [backgroundColor, setBackgroundColor] = useState("");
-  const [color, setColor] = useState("");
   const user = useSelector(selectUser);
+  const [title, setTitle] = useState(user.space.title || "");
+  const [description, setDescription] = useState(user.space.description || "");
+  const [backgroundColor, setBackgroundColor] = useState(
+    user.space.backgroundColor || ""
+  );
+  const [color, setColor] = useState(user.space.color || "");
   const dispatch = useDispatch();
 
   const updateSpaceOnSubmit = (e) => {
     e.preventDefault();
     dispatch(updateSpace(title, description, backgroundColor, color));
-    alert("You've successfully updated your space!");
   };
 
   return (
     <div className="PostStoryFormContainer">
       <h3>Edit Your Space</h3>
       <div className="PostStoryWrapper">
-        <form onSubmit={updateSpace}>
+        <form onSubmit={updateSpaceOnSubmit}>
           <ul>
             <li className="form-row">
               <label>
                 Title:
                 <input
                   type="text"
-                  value={user.space.title}
+                  value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </label>
@@ -38,7 +39,7 @@ export default function UpdateSpaceForm() {
                 Description:
                 <input
                   type="text"
-                  value={user.space.description}
+                  value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </label>
@@ -48,7 +49,7 @@ export default function UpdateSpaceForm() {
                 Background Color:
                 <input
                   type="color"
-                  value={user.space.backgroundColor}
+                  value={backgroundColor}
                   onChange={(e) => setBackgroundColor(e.target.value)}
                 />
               </label>
@@ -58,7 +59,7 @@ export default function UpdateSpaceForm() {
                 Text Color:
                 <input
                   type="color"
-                  value={user.space.color}
+                  value={color}
                   onChange={(e) => setColor(e.target.value)}
                 />
               </label>

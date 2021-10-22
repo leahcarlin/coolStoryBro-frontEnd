@@ -11,7 +11,7 @@
     opacity: 0.8;
     border-radius: 10px;
     flex-basis: 25%;
-    flex-grow: 1;
+    // flex-grow: 1;
   }
 
   .button {
@@ -62,7 +62,6 @@
       padding: 10px;
     }
     .PreviewImage img {
-      flex-shrink: 0;
       width: 300px;
     }
   }

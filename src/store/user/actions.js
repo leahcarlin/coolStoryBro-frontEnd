@@ -13,7 +13,7 @@ export const TOKEN_STILL_VALID = "TOKEN_STILL_VALID";
 export const LOG_OUT = "LOG_OUT";
 export const DELETE_SUCCESS = "DELETE_SUCCESS";
 export const NEW_STORY_SUCCESS = "NEW_STORY_SUCCESS";
-export const SPACE_UPDATE_SUCCESS = "SPACE_UPDATE_SUCCESS"
+export const SPACE_UPDATE_SUCCESS = "SPACE_UPDATE_SUCCESS";
 
 const loginSuccess = (userWithToken) => {
   return {
@@ -48,7 +48,7 @@ export const spaceUpdateSuccess = (data) => {
     type: SPACE_UPDATE_SUCCESS,
     payload: data,
   };
-}
+};
 
 export const signUp = (name, email, password) => {
   return async (dispatch, getState) => {
@@ -168,15 +168,15 @@ export const newStory =
       }
     );
     console.log("new story", res);
+    dispatch(newStorySuccess(res.data));
     dispatch(
       showMessageWithTimeout(
-        "You've successfully posted a story!",
+        "success",
         false,
-        res.data.message,
+        "You've successfully posted a story!",
         3000
       )
     );
-    dispatch(newStorySuccess(res.data.story));
     dispatch(appDoneLoading());
   };
 
@@ -184,30 +184,34 @@ export const newStory =
 export const updateSpace =
   (title, description, backgroundColor, color) =>
   async (dispatch, getState) => {
-    const { space, token } = selectUser(getState());
-    dispatch(appLoading());
+    try {
+      const { space, token } = selectUser(getState());
+      dispatch(appLoading());
 
-    const res = await axios.put(
-      `${apiUrl}/spaces/${space.id}`,
-      {
-        title,
-        description,
-        backgroundColor,
-        color,
-      },
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    console.log("updated space", res);
-    dispatch(
-      showMessageWithTimeout(
-        "You've successfully updated your space!",
-        false,
-        res.data.message,
-        3000
-      )
-    );
-    dispatch(spaceUpdateSuccess(res.data)
-    dispatch(appDoneLoading());
+      const res = await axios.put(
+        `${apiUrl}/spaces/${space.id}`,
+        {
+          title,
+          description,
+          backgroundColor,
+          color,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("updated space", res);
+      dispatch(
+        showMessageWithTimeout(
+          "success",
+          false,
+          "You've successfully updated your space!",
+          3000
+        )
+      );
+      dispatch(spaceUpdateSuccess(res.data));
+      dispatch(appDoneLoading());
+    } catch (e) {
+      console.log(e.message);
+    }
   };

@@ -37,16 +37,16 @@ export default function MySpace() {
         <h1>{space.title}</h1>
         <h4>{space.description}</h4>
       </div>
-      {postStoryMode ? <PostStoryForm /> : null}
       <div className="PostStoryContainer">
         <div className="MySpaceButtons">
-          <button onClick={() => setEditMode(true)}>Edit my space</button>
-          <button onClick={() => setPostStoryMode(true)}>
+          <button onClick={() => setEditMode(!editMode)}>Edit my space</button>
+          <button onClick={() => setPostStoryMode(!postStoryMode)}>
             Post a cool story bro
           </button>
         </div>
 
         <MySpaceStories user={user} />
+        {postStoryMode ? <PostStoryForm /> : null}
         {editMode ? <UpdateSpaceForm /> : null}
       </div>
     </div>

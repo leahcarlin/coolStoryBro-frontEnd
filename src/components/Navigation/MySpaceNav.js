@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import NavbarItem from "./NavbarItem";
 
 export default function MySpace() {

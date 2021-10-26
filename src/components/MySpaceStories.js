@@ -14,9 +14,12 @@ export default function MySpaceStories(props) {
         user.space.stories.map((story) => (
           <div
             className="stories"
-            style={{ backgroundImage: "url(" + story.imgUrl + ")" }}
+            style={{
+              backgroundImage: "url(" + story.imgUrl + ")",
+              backgroundSize: "cover",
+            }}
           >
-            <div className="storiesContent">
+            <div className="StoriesContent">
               <h3>{story.name}</h3>
               <p>{story.content}</p>
               <button

@@ -10,16 +10,19 @@ export default function SingleSpace() {
   const spaceData = useSelector(selectSingleSpace);
   const space = spaceData.space;
 
-  // const storyByDate = space.stories.sort(
-  //   (a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)
-  // ); //stories sorted by date
-  // console.log("sorted", storyByDate);
-
   useEffect(() => {
     dispatch(fetchSingleSpace(id));
   }, [dispatch, id]);
 
   if (!space || !space.stories) return <h3>Loading...</h3>; //wait for load
+
+  // stories sorted by date
+  const sortStories = (a, b) => {
+    return Date.parse(b.createdAt) - Date.parse(a.createdAt);
+  };
+
+  const storiesByDate = [...space.stories].sort(sortStories);
+  // console.log("sorted stories", storiesByDate);
 
   return (
     <div className="singleSpaceContainer">
@@ -38,10 +41,13 @@ export default function SingleSpace() {
         {!space.stories ? (
           <h3>No stories for this space</h3>
         ) : (
-          space.stories.map((story) => (
+          storiesByDate.map((story) => (
             <div
               className="stories"
-              style={{ backgroundImage: "url(" + story.imgUrl + ")" }}
+              style={{
+                backgroundImage: "url(" + story.imgUrl + ")",
+                backgroundSize: "cover",
+              }}
             >
               <div className="storiesContent">
                 <h3>{story.name}</h3>

@@ -14,6 +14,9 @@ export default function PostStory() {
   const submitNewStory = (e) => {
     e.preventDefault();
     dispatch(newStory(name, content, imgUrl));
+    setName("");
+    setContent("");
+    setImgUrl("");
   };
 
   return (
